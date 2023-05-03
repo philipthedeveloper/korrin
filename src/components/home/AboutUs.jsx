@@ -43,13 +43,14 @@ const AboutContainer = styled.div`
     flex-direction: column;
     align-items: flex-start;
     gap: 2.5rem;
+    padding: 5rem 0rem;
   }
 `;
 
 const AboutHeading = styled.h2`
   // text-align: center;
   // padding: 3rem 0 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   background: transparent;
   font-size: 1.8rem;
 `;

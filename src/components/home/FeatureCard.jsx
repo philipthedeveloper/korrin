@@ -16,6 +16,16 @@ const FeatureCardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 0.7rem;
+
+  @media (max-width: 600px) {
+    h3 {
+      font-size: 0.9rem;
+    }
+
+    p {
+      font-size: 0.8rem;
+    }
+  }
 `;
 const FeatureCardIcon = styled.img``;
 const FeatureCardTitle = styled.h3`

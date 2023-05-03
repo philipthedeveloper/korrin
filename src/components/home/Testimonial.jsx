@@ -45,5 +45,10 @@ const TestimonialList = styled.div`
   width: 90%;
   margin: 0 auto;
   padding: 1.5rem 3rem;
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    padding: 1.5rem 0;
+  }
 `;
 export default Testimonial;

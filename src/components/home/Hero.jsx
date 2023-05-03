@@ -129,6 +129,10 @@ const HeroForm = styled.form`
   @media (max-width: 1200px) {
     margin: auto;
   }
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 const FormGroup = styled.div`
   width: 100%;

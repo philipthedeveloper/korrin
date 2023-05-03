@@ -36,6 +36,10 @@ const FeatureSection = styled.div`
   width: 90%;
   margin: 0 auto;
   padding: 1.5rem 3rem;
+
+  @media (max-width: 600px) {
+    padding: 1.5rem 1rem;
+  }
 `;
 
 export default Feature;
@@ -58,11 +62,12 @@ const SectionTitle = styled.h2``;
 const FeatureListContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  grid-auto-rows: 200px;
+  grid-auto-rows: 180px;
   gap: 1rem;
   margin: 2rem 0;
 
   @media (max-width: 600px) {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-auto-rows: fit-content;
   }
 `;
