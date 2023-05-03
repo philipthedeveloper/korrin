@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -20,8 +21,12 @@ const Hero = () => {
             </FormGroup>
           </HeroForm>
           <ActionContainer>
-            <ActionButton>Sign In</ActionButton>
-            <ActionButton>Sign Up</ActionButton>
+            <Link to="/signin-fans" style={linkStyle}>
+              Sign In
+            </Link>
+            <Link to="/signup-fans" style={linkStyle}>
+              Sign Up
+            </Link>
           </ActionContainer>
           <HeroActionContainer>
             <HeroButton index={0}></HeroButton>
@@ -221,20 +226,33 @@ const ActionContainer = styled.div`
   }
 `;
 
-const ActionButton = styled.button`
-  padding: 1rem 2.2rem;
-  border: none;
-  outline: none;
-  border-radius: 0.5rem;
-  color: #fff;
-  background-color: var(--primary-color-B);
-  font-family: inherit;
-  cursor: pointer;
-  transition: 0.5s ease;
+// const ActionButton = styled.button`
+//   padding: 1rem 2.2rem;
+//   border: none;
+//   outline: none;
+//   border-radius: 0.5rem;
+//   color: #fff;
+//   background-color: var(--primary-color-B);
+//   font-family: inherit;
+//   cursor: pointer;
+//   transition: 0.5s ease;
 
-  &:hover {
-    opacity: 0.8;
-  }
-`;
+//   &:hover {
+//     opacity: 0.8;
+//   }
+// `;
+
+const linkStyle = {
+  padding: "1rem 2.2rem",
+  border: "none",
+  outline: "none",
+  borderRadius: "0.5rem",
+  color: "#fff",
+  backgroundColor: "var(--primary-color-B)",
+  fontFamily: "inherit",
+  cursor: "pointer",
+  transition: "0.5s ease",
+  textDecoration: "none",
+};
 
 export default Hero;

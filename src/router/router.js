@@ -1,5 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ErrorPage, Home, About, Collaborate, Download } from "../pages";
+import {
+  ErrorPage,
+  Home,
+  About,
+  Collaborate,
+  Download,
+  SignIn,
+  SignUp,
+  SignInArtist,
+  SignUpArtist,
+} from "../pages";
 
 const ROUTE_LIST = [
   {
@@ -15,6 +25,10 @@ const ROUTE_LIST = [
     element: <Collaborate />,
   },
   { path: "/download", element: <Download /> },
+  { path: "/signin-fans", element: <SignIn /> },
+  { path: "/signin-artists", element: <SignInArtist /> },
+  { path: "/signup-fans", element: <SignUp /> },
+  { path: "/signup-artists", element: <SignUpArtist /> },
   {
     path: "*",
     element: <ErrorPage />,

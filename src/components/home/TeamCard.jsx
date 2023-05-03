@@ -15,9 +15,14 @@ const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-basis: 33%;
+  flex-shrink: 1;
   gap: 1rem;
 `;
-const ProfileImg = styled.img``;
+const ProfileImg = styled.img`
+  width: 90%;
+  max-width: 250px;
+`;
 const Name = styled.h3``;
 const Role = styled.p`
   font-size: 0.9rem;

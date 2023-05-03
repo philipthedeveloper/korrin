@@ -51,8 +51,12 @@ const Navbar = () => {
         </NavList>
       </Nav>
       <ActionContainer>
-        <ActionButton>Sign In</ActionButton>
-        <ActionButton>Sign Up</ActionButton>
+        <Link to="/signin-fans" style={linkStyle}>
+          Sign In
+        </Link>
+        <Link to="/signup-fans" style={linkStyle}>
+          Sign Up
+        </Link>
       </ActionContainer>
       <div
         className="toggle-nav"
@@ -117,20 +121,17 @@ export const ActionContainer = styled.div`
   }
 `;
 
-export const ActionButton = styled.button`
-  padding: 0.7rem 2rem;
-  border: none;
-  outline: none;
-  border-radius: 15px;
-  color: #fff;
-  background-color: var(--primary-color-B);
-  font-family: inherit;
-  cursor: pointer;
-  transition: 0.5s ease;
-
-  &:hover {
-    opacity: 0.8;
-  }
-`;
+const linkStyle = {
+  padding: "0.7rem 2rem",
+  border: "none",
+  outline: "none",
+  borderRadius: "15px",
+  color: "#fff",
+  backgroundColor: "var(--primary-color-B)",
+  fontFamily: "inherit",
+  cursor: "pointer",
+  transition: "0.5s ease",
+  textDecoration: "none",
+};
 
 export default Navbar;
