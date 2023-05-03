@@ -11,8 +11,8 @@ const Testimonial = () => {
         What artistes and their fans say about KoRrin
       </SectionDescription>
       <TestimonialList>
-        {TESTIMONIAL_DATA.map((testimonial) => (
-          <TestimonialCard {...testimonial} />
+        {TESTIMONIAL_DATA.map((testimonial, index) => (
+          <TestimonialCard {...testimonial} key={index.toString()} />
         ))}
       </TestimonialList>
     </TestimonialContainer>
@@ -21,7 +21,8 @@ const Testimonial = () => {
 
 const TestimonialContainer = styled.div`
   background-color: #dee2ed;
-  min-height: 80vh;
+  padding: 8rem 0;
+  padding-top: 4rem;
 `;
 
 const FeatureHeading = styled.h2`

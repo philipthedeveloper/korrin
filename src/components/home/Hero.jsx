@@ -10,9 +10,7 @@ const Hero = () => {
             <HeroTitle>Live Stream Music with Fans</HeroTitle>
             <HeroDescription>
               KoRrin lets fans pay you for an Online or Physical performance.
-            </HeroDescription>
-            <HeroDescription>
-              Let your money make you a family to your favorite artistes
+              <br /> Let your money make you a family to your favorite artistes
             </HeroDescription>
           </HeroIntroContainer>
           <HeroForm>
@@ -21,6 +19,10 @@ const Hero = () => {
               <GetStartedButton>Get Started</GetStartedButton>
             </FormGroup>
           </HeroForm>
+          <ActionContainer>
+            <ActionButton>Sign In</ActionButton>
+            <ActionButton>Sign Up</ActionButton>
+          </ActionContainer>
           <HeroActionContainer>
             <HeroButton index={0}></HeroButton>
             <HeroButton index={1}></HeroButton>
@@ -53,6 +55,13 @@ const HeroSectionContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 1200px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 6rem;
+    padding: 4rem 0;
+  }
 `;
 
 const LeftContainer = styled.div`
@@ -61,10 +70,18 @@ const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
+
+  @media (max-width: 1200px) {
+    flex-basis: 100%;
+  }
 `;
 const RightContainer = styled.div`
   flex-basis: 45%;
   //   background-color: blue;
+
+  @media (max-width: 1200px) {
+    flex-basis: 100%;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -74,6 +91,10 @@ const ImageContainer = styled.div`
   aspect-ratio: 1/1;
   overflow: hidden;
   border-radius: 50%;
+  @media (max-width: 1200px) {
+    width: 100%;
+    margin: none;
+  }
 `;
 const HeroImage = styled.img`
   width: 100%;
@@ -85,15 +106,29 @@ const HeroIntroContainer = styled.div``;
 const HeroTitle = styled.h1`
   margin-bottom: 0.7rem;
   font-size: 1.75rem;
+
+  @media (max-width: 1200px) {
+    text-align: center;
+  }
+  @media (max-width: 600px) {
+    font-size: 1.5rem;
+  }
 `;
 const HeroDescription = styled.p`
   font-size: 0.9rem;
   line-height: 1.5;
+
+  @media (max-width: 1200px) {
+    text-align: center;
+  }
 `;
 
 const HeroForm = styled.form`
   width: 80%;
   max-width: 400px;
+  @media (max-width: 1200px) {
+    margin: auto;
+  }
 `;
 const FormGroup = styled.div`
   width: 100%;
@@ -139,7 +174,15 @@ const GetStartedButton = styled.button`
   padding: 1.2rem 1.3rem;
   border-radius: 1rem;
 `;
-export const HeroActionContainer = styled.div``;
+export const HeroActionContainer = styled.div`
+  @media (max-width: 600px) {
+    display: flex;
+    // flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+`;
 export const HeroButton = styled.button`
   background: url("${(props) =>
     props.index === 0
@@ -154,6 +197,40 @@ export const HeroButton = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    margin: 0;
+    width: 150px;
+    height: 45px;
+    background-size: 150px 45px;
+  }
+`;
+
+const ActionContainer = styled.div`
+  align-items: center;
+  gap: 1rem;
+  display: none;
+
+  @media (max-width: 600px) {
+    display: flex;
+    justify-content: center;
+  }
+`;
+
+const ActionButton = styled.button`
+  padding: 1rem 2.2rem;
+  border: none;
+  outline: none;
+  border-radius: 0.5rem;
+  color: #fff;
+  background-color: var(--primary-color-B);
+  font-family: inherit;
+  cursor: pointer;
+  transition: 0.5s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 export default Hero;

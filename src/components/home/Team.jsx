@@ -8,8 +8,8 @@ const Team = () => {
     <TeamContainer>
       <TeamHeading>Our Team</TeamHeading>
       <TeamSection>
-        {TEAM_MEMBER.map((member) => (
-          <TeamCard {...member} />
+        {TEAM_MEMBER.map((member, index) => (
+          <TeamCard {...member} key={index.toString()} />
         ))}
       </TeamSection>
     </TeamContainer>
@@ -17,7 +17,6 @@ const Team = () => {
 };
 
 const TeamContainer = styled.div`
-  min-height: 80vh;
   margin: 0rem 0;
   padding-bottom: 3rem;
 `;
@@ -36,6 +35,11 @@ const TeamSection = styled.div`
   width: 90%;
   margin: 0 auto;
   padding: 3rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 3rem;
+  }
 `;
 
 export default Team;

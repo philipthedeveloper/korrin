@@ -29,8 +29,13 @@ const FAQs = () => {
         <RightContainer>
           <InnerRightContainer ref={innerRightModal}>
             <QuestionContainer>
-              {FAQ_DATA.map((data) => (
-                <FaqCard {...data} action={showAnswer} reverse={false} />
+              {FAQ_DATA.map((data, index) => (
+                <FaqCard
+                  {...data}
+                  action={showAnswer}
+                  reverse={false}
+                  key={index.toString()}
+                />
               ))}
             </QuestionContainer>
             <AnswerContainer>
@@ -51,7 +56,6 @@ const FAQs = () => {
 
 const FaqContainer = styled.div`
   background-color: #fff;
-  min-height: 80vh;
   margin: 0rem 0;
   padding-bottom: 3rem;
 `;
@@ -71,6 +75,13 @@ const FaqSection = styled.div`
   margin: 0 auto;
   padding: 3rem;
   align-items: center;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    padding: 3rem 0;
+  }
 `;
 const LeftContainer = styled.div`
   flex-basis: 35%;
@@ -89,6 +100,11 @@ const RightContainer = styled.div`
   border-bottom-left-radius: 1rem;
   box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.25);
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    flex-basis: 100%;
+    width: 100%;
+  }
 `;
 
 const FaqHeroImage = styled.img`

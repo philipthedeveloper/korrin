@@ -10,11 +10,29 @@ const Footer = () => {
     <FooterContainer>
       <FooterUpperSection>
         <Logo src={logo} />
-        {FOOTER_DATA.map((data) => (
-          <FooterSubSection {...data} />
+        {FOOTER_DATA.map((data, index) => (
+          <FooterSubSection {...data} key={index.toString()} />
         ))}
         <Discover />
       </FooterUpperSection>
+      <FooterLowerSection>
+        <Copyright>All Copyrights Reserved &copy; KoRrin</Copyright>
+        <Socails>
+          <Link to="/" target={"_blank"} rel="noreferrer" style={linkStyle}>
+            <i className="fa-brands fa-linkedin-in"></i>
+          </Link>
+          <Link to="/" target={"_blank"} rel={"noreferrer"} style={linkStyle}>
+            <i className="fa-brands fa-facebook"></i>
+          </Link>
+          <Link to="/" target={"_blank"} rel="noreferrer" style={linkStyle}>
+            <i className="fa-brands fa-twitter"></i>
+          </Link>
+
+          <Link to="/" target={"_blank"} rel="noreferrer" style={linkStyle}>
+            <i className="fa-brands fa-instagram"></i>
+          </Link>
+        </Socails>
+      </FooterLowerSection>
     </FooterContainer>
   );
 };
@@ -30,12 +48,57 @@ const FooterContainer = styled.div`
 const FooterUpperSection = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2.5rem 1rem;
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+`;
+
+const FooterLowerSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 1rem;
+  margin-top: 2rem;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const Logo = styled.img`
   width: 200px;
+  @media (max-width: 600px) {
+    width: 150px;
+  }
 `;
+
+const Copyright = styled.p`
+  font-size: 0.9rem;
+  color: #fff;
+`;
+
+const Socails = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+const linkStyle = {
+  aspectRatio: 1,
+  alignItems: "center",
+  backgroundColor: "#fff",
+  borderRadius: "50%",
+  color: "rgba(0, 0, 0, 0.7)",
+  display: "flex",
+  justifyContent: "center",
+  textDecoration: "none",
+  width: "50px",
+  transition: "0.4s ease",
+  padding: "0.5rem",
+  fontSize: "25px",
+};
 
 export default Footer;
 
@@ -44,8 +107,8 @@ const FooterSubSection = ({ name, links }) => {
     <SubSectionContainer>
       <SubSectionTitle>{name}</SubSectionTitle>
       <LinkList>
-        {links.map((link) => (
-          <ListItem>
+        {links.map((link, index) => (
+          <ListItem key={index.toString()}>
             <Link
               to={link.path}
               style={{ textDecoration: "none", color: "#fff" }}

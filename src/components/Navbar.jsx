@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import logo from "../assets/imgs/logo.png";
+import "./Navbar.css";
 
 const NAVLIST = [
   { name: "Home", path: "/" },
@@ -11,6 +12,26 @@ const NAVLIST = [
 ];
 
 const Navbar = () => {
+  const nav = useRef(null);
+  const toggler = useRef(null);
+  const handleToggle = () => {
+    if (nav.current.classList.contains("show")) {
+      nav.current.classList.remove("show");
+      toggler.current.classList.remove("cross");
+      // toggleButton(true);
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+    } else {
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${window.scrollY}px`;
+      // toggleButton(false);
+      nav.current.classList.add("show");
+      toggler.current.classList.add("cross");
+    }
+  };
+
   return (
     <Header>
       <LogoContainer>
@@ -18,7 +39,7 @@ const Navbar = () => {
           <Logo src={logo} />
         </Link>
       </LogoContainer>
-      <Nav>
+      <Nav ref={nav}>
         <NavList>
           {NAVLIST.map((item, index) => (
             <NavItem key={index.toString()}>
@@ -33,6 +54,15 @@ const Navbar = () => {
         <ActionButton>Sign In</ActionButton>
         <ActionButton>Sign Up</ActionButton>
       </ActionContainer>
+      <div
+        className="toggle-nav"
+        onClick={(e) => handleToggle(e)}
+        ref={toggler}
+      >
+        <span className="a"></span>
+        <span className="b"></span>
+        <span className="c"></span>
+      </div>
     </Header>
   );
 };
@@ -50,6 +80,10 @@ const LogoContainer = styled.div`
 `;
 const Logo = styled.img`
   width: 200px;
+
+  @media (max-width: 600px) {
+    width: 150px;
+  }
 `;
 const Nav = styled.nav`
   //   flex: 3;
@@ -77,6 +111,10 @@ export const ActionContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 3rem;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 `;
 
 export const ActionButton = styled.button`

@@ -1,0 +1,120 @@
+/* togle nav */
+.toggle-nav {
+  width: 40px;
+  height: 40px;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* position: absolute; */
+  z-index: 100;
+  background-color: var(--primary-color-B);
+  border-radius: 50%;
+  /* top: 105px;
+  left: 50%; */
+  transition: 0.2s ease;
+  /* transform: translate(-50%, -50%); */
+  transform: translate(-0%, -0%);
+  cursor: pointer;
+}
+
+.cross.toggle-nav {
+  /* top: 30px;
+  left: calc(100% - 40px); */
+}
+
+.toggle-nav span {
+  /* display: none; */
+  margin: 3px 0;
+}
+
+.toggle-nav .a {
+  width: 65%;
+  height: 2px;
+  background-color: #fff;
+  transition: 0.5s ease;
+}
+
+.cross.toggle-nav .a {
+  transform: rotate(45deg) translate(6px, 5px);
+}
+
+.toggle-nav .b {
+  width: 65%;
+  height: 2px;
+  background-color: #fff;
+  transition: 0.5s ease;
+}
+
+.cross.toggle-nav .b {
+  opacity: 0;
+}
+
+.toggle-nav .c {
+  width: 65%;
+  height: 2px;
+  background-color: #fff;
+  transition: 0.5s ease;
+}
+
+.cross.toggle-nav .c {
+  transform: rotate(-45deg) translate(6px, -5px);
+}
+
+@media screen and (max-width: 992px) {
+    .toggle-nav {
+      display: flex;
+    }
+  
+    header nav {
+      position: absolute;
+      top: 0;
+      left: 100%;
+      right: 0;
+      bottom: 0;
+      height: 100vh;
+      background-color: rgba(24, 26, 37, 0.863);
+      z-index: 40;
+      overflow: hidden;
+      transition: 0.5s ease;
+    }
+  
+    .show {
+      left: 0%;
+    }
+  
+    .show ul li {
+      opacity: 0;
+      transform: scale(0);
+      animation: opacityAnime 0.5s ease 0.5s 1 normal forwards;
+    }
+
+    .show ul li a {
+        color: #fff !important;
+        font-variant: small-caps;
+        font-weight: 500;
+      }
+
+      .show ul li a:hover {
+        color: var(--primary-color-B) !important;
+      }
+  
+    header ul {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      height: 100%;
+    }
+  }
+
+  @keyframes opacityAnime {
+    from {
+      opacity: 0;
+      transform: scale(0);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }

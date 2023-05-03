@@ -9,7 +9,7 @@ const Feature = () => {
       <FeatureHeading>Enjoy With Features</FeatureHeading>
       <FeatureSection>
         {DATA.map(({ title, data }) => (
-          <FeatureSectionComponent title={title} data={data} />
+          <FeatureSectionComponent title={title} data={data} key={title} />
         ))}
       </FeatureSection>
     </FeatureContainer>
@@ -32,7 +32,7 @@ const FeatureSection = styled.div`
   background: url("${require("../../assets/imgs/feature-container-background.png")}");
   backgroung-repeat: no-repeat;
   background-size: 100% 100%;
-  min-height: 100vh;
+  // min-height: 100vh;
   width: 90%;
   margin: 0 auto;
   padding: 1.5rem 3rem;
@@ -45,8 +45,8 @@ const FeatureSectionComponent = ({ title, data }) => {
     <SectionContainer>
       <SectionTitle>{title}</SectionTitle>
       <FeatureListContainer>
-        {data.map((feature) => (
-          <FeatureCard {...feature} />
+        {data.map((feature, index) => (
+          <FeatureCard {...feature} key={index.toString()} />
         ))}
       </FeatureListContainer>
     </SectionContainer>
@@ -61,4 +61,8 @@ const FeatureListContainer = styled.div`
   grid-auto-rows: 200px;
   gap: 1rem;
   margin: 2rem 0;
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
 `;
