@@ -26,6 +26,10 @@ const Button = styled.button`
   justify-content: space-between;
   width: 100%;
 
+  @media (max-width: 600px) {
+    font-size: 0.8rem;
+  }
+
   &:hover {
     background-color: #d9d9d9;
   }

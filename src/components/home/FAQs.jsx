@@ -132,15 +132,27 @@ const QuestionContainer = styled.div`
   gap: 0.8rem;
   flex-basis: 100%;
   padding: 3rem;
+
+  @media (max-width: 600px) {
+    padding: 1.5rem;
+  }
 `;
 
 const AnswerContainer = styled.div`
   flex-basis: 100%;
   padding: 3rem;
+
+  @media (max-width: 600px) {
+    padding: 1.5rem;
+  }
 `;
 const Answer = styled.p`
   font-size: 0.9rem;
   padding: 0.7rem 1rem;
+
+  @media (max-width: 600px) {
+    font-size: 0.8rem;
+  }
 `;
 
 export default FAQs;
