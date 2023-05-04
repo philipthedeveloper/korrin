@@ -9,6 +9,9 @@ import {
   SignUp,
   SignInArtist,
   SignUpArtist,
+  ForgotPassword,
+  ResetPassword,
+  ChangePassword,
 } from "../pages";
 
 const ROUTE_LIST = [
@@ -29,6 +32,9 @@ const ROUTE_LIST = [
   { path: "/signin-artists", element: <SignInArtist /> },
   { path: "/signup-fans", element: <SignUp /> },
   { path: "/signup-artists", element: <SignUpArtist /> },
+  { path: "/forgot-password", element: <ForgotPassword /> },
+  { path: "/reset-password", element: <ResetPassword /> },
+  { path: "/change-password", element: <ChangePassword /> },
   {
     path: "*",
     element: <ErrorPage />,

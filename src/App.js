@@ -13,9 +13,9 @@ function App() {
 
   return (
     <>
-      {currentRoute.includes("signin") || currentRoute.includes("signup") || (
-        <Navbar />
-      )}
+      {currentRoute.includes("signin") ||
+        currentRoute.includes("signup") ||
+        currentRoute.includes("password") || <Navbar />}
     </>
   );
 }

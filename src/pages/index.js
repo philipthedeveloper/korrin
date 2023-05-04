@@ -7,6 +7,9 @@ import SignIn from "./SignIn";
 import SignInArtist from "./SignInArtist";
 import SignUp from "./SignUp";
 import SignUpArtist from "./SignUpArtist";
+import ForgotPassword from "./ForgotPassword";
+import ResetPassword from "./ResetPassoword";
+import ChangePassword from "./ChangePassword";
 
 export {
   Home,
@@ -18,4 +21,7 @@ export {
   SignUp,
   SignInArtist,
   SignUpArtist,
+  ForgotPassword,
+  ResetPassword,
+  ChangePassword,
 };

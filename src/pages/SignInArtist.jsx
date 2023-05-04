@@ -58,13 +58,13 @@ const SignInArtist = () => {
                 <Input type="checkbox" value={"agreed"} name="agreed" />
                 <RememberText>Remember me</RememberText>
               </div>
-              <Link to={"/"} style={linkStyle}>
+              <Link to={"/forgot-password"} style={linkStyle}>
                 Forgot Password?
               </Link>
             </RememberContainer>
             <LoginButton>Login</LoginButton>
             <AlreadyHaveAccount>
-              Don't have an account? <Link to={"/signup-fans"}>Sign Up</Link>
+              Don't have an account? <Link to={"/signup-artists"}>Sign Up</Link>
             </AlreadyHaveAccount>
           </FormContainer>
         </RightContainer>
