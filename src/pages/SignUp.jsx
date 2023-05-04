@@ -96,6 +96,7 @@ const SignUpContainer = styled.main`
     grid-template-rows: 50px 1fr;
     gap: 1rem;
     overflow: scroll;
+    padding: 1rem 0;
   }
 `;
 
@@ -135,6 +136,7 @@ const LeftContainer = styled.div`
     min-height: fit-content;
     height: fit-content;
     gap: 3rem;
+    padding: 4rem 1rem;
   }
 `;
 
@@ -187,6 +189,10 @@ const RightContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
   padding: 4rem;
   color: #fff;
+
+  @media (max-width: 1000px) {
+    padding: 4rem 1rem;
+  }
 `;
 
 const CreateHeading = styled.h1`
