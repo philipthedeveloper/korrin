@@ -102,7 +102,7 @@ const ResetPassword = () => {
                   width: "100%",
                 }}
               >
-                Reset Password
+                Confirm OTP
               </Link>
             </ConfirmOTP>
           </FormContainer>

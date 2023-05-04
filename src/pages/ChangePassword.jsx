@@ -218,6 +218,14 @@ const ChangeButton = styled.button`
   &:hover {
     opacity: 0.8;
   }
+
+  a {
+    padding: 1rem !important;
+
+    @media (max-width: 600px) {
+      padding: 0.7rem;
+    }
+  }
 `;
 
 export default ChangePassword;

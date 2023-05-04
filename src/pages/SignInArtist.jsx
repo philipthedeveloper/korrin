@@ -313,7 +313,7 @@ const LoginButton = styled.button`
   background-color: #42ff00;
   width: 100%;
   margin: 1rem 0;
-  padding: 0.7rem;
+  padding: 1rem;
   color: #fff;
   font-family: inherit;
   font-weight: 600;
