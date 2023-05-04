@@ -13,7 +13,7 @@ const ResetPassword = () => {
   };
 
   const handleChange = (e) => {
-    if (e.target.nextElementSibling) {
+    if (e.target.nextElementSibling && e.target.value.length !== 0) {
       e.target.nextElementSibling.focus();
     }
   };
@@ -41,51 +41,56 @@ const ResetPassword = () => {
           <FormContainer>
             <FormGroup>
               <OTPInput
-                type="number"
+                type="text"
                 maxLength={1}
                 name="a"
                 onChange={(e) => {
+                  if (Number.isNaN(Number(e.target.value))) return;
                   e.target.value.length < 2 && setA(e.target.value);
                   handleChange(e);
                 }}
                 value={a}
               />
               <OTPInput
-                type="number"
+                type="text"
                 maxLength={1}
                 name="b"
                 value={b}
                 onChange={(e) => {
+                  if (Number.isNaN(Number(e.target.value))) return;
                   e.target.value.length < 2 && setB(e.target.value);
                   handleChange(e);
                 }}
               />
               <OTPInput
-                type="number"
+                type="text"
                 maxLength={1}
                 name="c"
                 value={c}
                 onChange={(e) => {
+                  if (Number.isNaN(Number(e.target.value))) return;
                   e.target.value.length < 2 && setC(e.target.value);
                   handleChange(e);
                 }}
               />
               <OTPInput
-                type="number"
+                type="text"
                 maxLength={1}
                 name="d"
                 value={d}
                 onChange={(e) => {
+                  if (Number.isNaN(Number(e.target.value))) return;
                   e.target.value.length < 2 && setD(e.target.value);
                   handleChange(e);
                 }}
               />
               <OTPInput
-                type="number"
+                type="text"
                 maxLength={1}
                 name="e"
                 value={e}
                 onChange={(e) => {
+                  if (Number.isNaN(Number(e.target.value))) return;
                   e.target.value.length < 2 && setE(e.target.value);
                   handleChange(e);
                 }}
