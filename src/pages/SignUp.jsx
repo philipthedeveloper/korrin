@@ -187,7 +187,7 @@ const VerticalStroke = styled.span`
 
 const RightContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
-  padding: 4rem;
+  padding: 0 4rem;
   color: #fff;
 
   @media (max-width: 1000px) {
@@ -197,6 +197,7 @@ const RightContainer = styled.div`
 
 const CreateHeading = styled.h1`
   text-align: center;
+  margin: 1rem 0;
 `;
 const SignUpWith = styled.p`
   margin: 0.5rem 0;
@@ -273,7 +274,7 @@ const Label = styled.label`
   font-weight: 600;
 `;
 const Input = styled.input`
-  padding: 0.8rem 0 0.2rem;
+  padding: 0.5rem 0 0.2rem;
   background: transparent;
   border: none;
   outline: none;
