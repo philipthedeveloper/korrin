@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Download = () => {
   return (
-    <DownloadContainer>
+    <DownloadContainer id="download">
       <DownloadHeading>Download</DownloadHeading>
       <ImageContainer>
         <LaptopImage src={require("../../assets/imgs/laptop.png")} />

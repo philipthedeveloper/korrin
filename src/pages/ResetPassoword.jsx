@@ -122,7 +122,7 @@ const SignUpContainer = styled.main`
   width: 100vw;
   height: 100vh;
   background-color: var(--primary-color-B);
-  background-image: url(${require("../assets/imgs/guitar.jpg")});
+  background-image: url(${require("../assets/imgs/guitar.png")});
   background-size: cover;
   background-position: center;
   display: grid;

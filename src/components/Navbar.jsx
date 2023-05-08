@@ -6,9 +6,9 @@ import "./Navbar.css";
 
 const NAVLIST = [
   { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
+  { name: "About", path: "#about-us" },
   { name: "Collaborate", path: "/collaborate" },
-  { name: "Download", path: "/download" },
+  { name: "Download", path: "#download" },
 ];
 
 const Navbar = () => {
@@ -43,9 +43,15 @@ const Navbar = () => {
         <NavList>
           {NAVLIST.map((item, index) => (
             <NavItem key={index.toString()}>
-              <Link to={item.path} style={{ textDecoration: "none" }}>
-                {item.name}
-              </Link>
+              {item.path.includes("#") ? (
+                <a href={item.path} style={{ textDecoration: "none" }}>
+                  {item.name}
+                </a>
+              ) : (
+                <Link to={item.path} style={{ textDecoration: "none" }}>
+                  {item.name}
+                </Link>
+              )}
             </NavItem>
           ))}
         </NavList>

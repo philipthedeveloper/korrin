@@ -1,8 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+import { Database } from "../db/Context";
+
 const SignInArtist = () => {
+  const { login, authenticated } = useContext(Database);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authenticated) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [authenticated, navigate]);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    login(() => {
+      navigate("/dashboard", { replace: true });
+    });
+  };
   return (
     <SignUpContainer>
       <ActionContainer>
@@ -62,7 +79,7 @@ const SignInArtist = () => {
                 Forgot Password?
               </Link>
             </RememberContainer>
-            <LoginButton>Login</LoginButton>
+            <LoginButton onClick={handleLogin}>Login</LoginButton>
             <AlreadyHaveAccount>
               Don't have an account? <Link to={"/signup-artists"}>Sign Up</Link>
             </AlreadyHaveAccount>

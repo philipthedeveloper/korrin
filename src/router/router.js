@@ -12,7 +12,9 @@ import {
   ForgotPassword,
   ResetPassword,
   ChangePassword,
+  Dashboard,
 } from "../pages";
+import PrivateRoute from "./private.route";
 
 const ROUTE_LIST = [
   {
@@ -46,6 +48,10 @@ const Router = ({ children }) => {
     <BrowserRouter>
       {children}
       <Routes>
+        {/* {PrivateRoute({ path: "/dashboard", element: <Dashboard /> })} */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
         {ROUTE_LIST.map((item) => (
           <Route path={item.path} element={item.element} key={item.path} />
         ))}

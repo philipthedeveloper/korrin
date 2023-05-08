@@ -10,6 +10,7 @@ import SignUpArtist from "./SignUpArtist";
 import ForgotPassword from "./ForgotPassword";
 import ResetPassword from "./ResetPassoword";
 import ChangePassword from "./ChangePassword";
+import Dashboard from "./Dashboard";
 
 export {
   Home,
@@ -24,4 +25,5 @@ export {
   ForgotPassword,
   ResetPassword,
   ChangePassword,
+  Dashboard,
 };

@@ -1,8 +1,26 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { Database } from "../db/Context";
 
 const SignIn = () => {
+  const { login, authenticated } = useContext(Database);
+  console.log(authenticated);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authenticated) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [authenticated, navigate]);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    login(() => {
+      navigate("/dashboard", { replace: true });
+    });
+  };
+
   return (
     <SignUpContainer>
       <ActionContainer>
@@ -62,7 +80,7 @@ const SignIn = () => {
                 Forgot Password?
               </Link>
             </RememberContainer>
-            <LoginButton>Login</LoginButton>
+            <LoginButton onClick={(e) => handleLogin(e)}>Login</LoginButton>
             <AlreadyHaveAccount>
               Don't have an account? <Link to={"/signup-fans"}>Sign Up</Link>
             </AlreadyHaveAccount>
