@@ -5,6 +5,7 @@ import { Database } from "../db/Context";
 import toaster from "../utils/functions/toaster";
 import emailValidator from "../utils/functions/email-validator";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ const SignIn = () => {
   const { setUser, BASE_URL } = useContext(Database);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       return toaster("error", "Please fill all credentials");
@@ -24,7 +25,16 @@ const SignIn = () => {
       return toaster("error", "Password cannot be less than 8 characters");
     }
     const data = { email, password };
-    loginUser(data);
+
+    await toast.promise(loginUser(data), {
+      pending: "Verify credentials",
+      success: "Login Successful",
+      error: {
+        render({ data }) {
+          return data.message;
+        },
+      },
+    });
   };
 
   const loginUser = async (data) => {
@@ -34,7 +44,7 @@ const SignIn = () => {
       });
       const result = response.data;
       if (response.status === 200) {
-        toaster("success", "Login success");
+        // toaster("success", "Login success");
         let toasterTimeout = setTimeout(() => {
           navigate("/dashboard");
           clearTimeout(toasterTimeout);
@@ -42,7 +52,8 @@ const SignIn = () => {
       }
       setUser(result.user);
     } catch (error) {
-      return toaster("error", error.response.data.msg);
+      throw new Error(error.response.data.msg);
+      // return toaster("error", error.response.data.msg);
     }
   };
 

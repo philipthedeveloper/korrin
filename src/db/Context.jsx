@@ -2,6 +2,7 @@ import React, { createContext, useState } from "react";
 import axios from "axios";
 import toaster from "../utils/functions/toaster";
 import emailValidator from "../utils/functions/email-validator";
+import { toast } from "react-toastify";
 
 export const Database = createContext();
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -44,7 +45,7 @@ const Context = ({ children }) => {
     }
   };
 
-  const createAccount = (
+  const createAccount = async (
     name,
     email,
     password,
@@ -72,7 +73,15 @@ const Context = ({ children }) => {
       return toaster("error", "You have to accept the terms to proceed");
     }
     const data = { name, email, password, account_type };
-    registerUser(data, callback);
+    await toast.promise(registerUser(data, callback), {
+      pending: "Creating account",
+      success: "Account created successfully!",
+      error: {
+        render({ data }) {
+          return data.message;
+        },
+      },
+    });
   };
 
   const registerUser = async (data, callback) => {
@@ -85,9 +94,10 @@ const Context = ({ children }) => {
         callback();
       }
       setUser(result.user);
+      return true;
     } catch (error) {
-      console.log(error);
-      return toaster("error", error.response.data.msg);
+      throw new Error(error.response.data.msg);
+      // return toaster("error", error.response.data.msg);
     }
   };
 

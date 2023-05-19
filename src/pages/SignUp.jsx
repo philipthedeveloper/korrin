@@ -28,7 +28,7 @@ const SignUp = () => {
   };
 
   const registerCallback = () => {
-    toaster("success", "Account created successfully");
+    // toaster("success", "Account created successfully");
     let toasterTimeout = setTimeout(() => {
       navigate("/dashboard");
       clearTimeout(toasterTimeout);
