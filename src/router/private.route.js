@@ -14,7 +14,7 @@ const PrivateRoute = () => {
       const isAuth = await authChecker();
       setIsAuth(isAuth);
     })();
-  }, [authChecker]);
+  }, []);
 
   if (isAuth === null) {
     return <LoadingContainer></LoadingContainer>;
