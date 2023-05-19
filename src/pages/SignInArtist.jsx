@@ -1,25 +1,53 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
 import { Database } from "../db/Context";
+import toaster from "../utils/functions/toaster";
+import emailValidator from "../utils/functions/email-validator";
+import axios from "axios";
 
 const SignInArtist = () => {
-  const { login, authenticated } = useContext(Database);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { setUser } = useContext(Database);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (authenticated) {
-      navigate("/dashboard", { replace: true });
-    }
-  }, [authenticated, navigate]);
-
-  const handleLogin = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    login(() => {
-      navigate("/dashboard", { replace: true });
-    });
+    if (!email || !password) {
+      return toaster("error", "Please fill all credentials");
+    }
+    if (!emailValidator(email)) {
+      return toaster("error", "Enter a vaild email.");
+    }
+    if (password.length < 8) {
+      return toaster("error", "Password cannot be less than 8 characters");
+    }
+    const data = { email, password };
+    loginUser(data);
   };
+
+  const loginUser = async (data) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/auth/login",
+        data,
+        { withCredentials: true }
+      );
+      const result = response.data;
+      if (response.status === 200) {
+        toaster("success", "Login success");
+        let toasterTimeout = setTimeout(() => {
+          navigate("/dashboard");
+          clearTimeout(toasterTimeout);
+        }, 1500);
+      }
+      setUser(result.user);
+    } catch (error) {
+      return toaster("error", error.response.data.msg);
+    }
+  };
+
   return (
     <SignUpContainer>
       <ActionContainer>
@@ -35,7 +63,7 @@ const SignInArtist = () => {
             </WelcomePara>
           </LogoContainer>
           <Footer>
-            <Link to={"/signin-fans"}>FANS HERE</Link>
+            <Link to={"/signin"}>FANS HERE</Link>
             <VerticalStroke />
             <Link to={"/signin-artists"} className={"underline-focus"}>
               ARTISTS HERE
@@ -64,11 +92,25 @@ const SignInArtist = () => {
           <FormContainer>
             <FormGroup>
               <Label>Email</Label>
-              <Input type="email" id="email" name="email" required />
+              <Input
+                type="email"
+                id="email"
+                name="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value.trim())}
+              />
             </FormGroup>
             <FormGroup>
               <Label>Password</Label>
-              <Input type="password" id="password" name="password" required />
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value.trim())}
+              />
             </FormGroup>
             <RememberContainer>
               <div>
@@ -79,7 +121,7 @@ const SignInArtist = () => {
                 Forgot Password?
               </Link>
             </RememberContainer>
-            <LoginButton onClick={handleLogin}>Login</LoginButton>
+            <LoginButton onClick={handleSubmit}>Login</LoginButton>
             <AlreadyHaveAccount>
               Don't have an account? <Link to={"/signup-artists"}>Sign Up</Link>
             </AlreadyHaveAccount>

@@ -7,10 +7,12 @@ import Download from "../components/home/Download";
 import FAQs from "../components/home/FAQs";
 import Team from "../components/home/Team";
 import Footer from "../components/home/Footer";
+import Navbar from "../components/Navbar";
 
 const Home = () => {
   return (
     <>
+      <Navbar />
       <Hero />
       <Feature />
       <Testimonial />

@@ -39,7 +39,7 @@ const ChangePassword = () => {
             </FormGroup>
             <ChangeButton onClick={(e) => fakeEvent(e)}>
               <Link
-                to={"/signin-fans"}
+                to={"/signin"}
                 style={{
                   textDecoration: "none",
                   color: "#fff",

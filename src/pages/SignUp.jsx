@@ -1,8 +1,40 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import "react-toastify/dist/ReactToastify.css";
+import toaster from "../utils/functions/toaster";
+import { Database } from "../db/Context";
 
 const SignUp = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [checked, setChecked] = useState(false);
+  const navigate = useNavigate();
+  const { createAccount } = useContext(Database);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createAccount(
+      name,
+      email,
+      password,
+      confirmPassword,
+      "fan",
+      checked,
+      registerCallback
+    );
+  };
+
+  const registerCallback = () => {
+    toaster("success", "Account created successfully");
+    let toasterTimeout = setTimeout(() => {
+      navigate("/dashboard");
+      clearTimeout(toasterTimeout);
+    }, 1500);
+  };
+
   return (
     <SignUpContainer>
       <ActionContainer>
@@ -47,15 +79,36 @@ const SignUp = () => {
           <FormContainer>
             <FormGroup>
               <Label>Name</Label>
-              <Input type="text" id="name" name="name" required />
+              <Input
+                type="text"
+                id="name"
+                name="name"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value.trim())}
+              />
             </FormGroup>
             <FormGroup>
               <Label>Email</Label>
-              <Input type="email" id="email" name="email" required />
+              <Input
+                type="email"
+                id="email"
+                name="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value.trim())}
+              />
             </FormGroup>
             <FormGroup>
               <Label>Password</Label>
-              <Input type="password" id="password" name="password" required />
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value.trim())}
+              />
             </FormGroup>
             <FormGroup>
               <Label>Confirm Password</Label>
@@ -64,15 +117,23 @@ const SignUp = () => {
                 id="confirm-password"
                 name="confirm-password"
                 required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value.trim())}
               />
             </FormGroup>
             <TermsContainer>
-              <Input type="checkbox" value={"agreed"} name="agreed" />
+              <Input
+                type="checkbox"
+                value={"agreed"}
+                name="agreed"
+                checked={checked}
+                onChange={(e) => setChecked(e.target.checked)}
+              />
               <TermsText>I agree to the terms and conditions</TermsText>
             </TermsContainer>
-            <CreateButton>Create Account</CreateButton>
+            <CreateButton onClick={handleSubmit}>Create Account</CreateButton>
             <AlreadyHaveAccount>
-              Already have an account? <Link to={"/signin-fans"}>Sign In</Link>
+              Already have an account? <Link to={"/signin"}>Sign In</Link>
             </AlreadyHaveAccount>
           </FormContainer>
         </RightContainer>

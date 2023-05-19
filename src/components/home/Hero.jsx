@@ -21,7 +21,7 @@ const Hero = () => {
             </FormGroup>
           </HeroForm>
           <ActionContainer>
-            <Link to="/signin-fans" style={linkStyle}>
+            <Link to="/signin" style={linkStyle}>
               Sign In
             </Link>
             <Link to="/signup-fans" style={linkStyle}>

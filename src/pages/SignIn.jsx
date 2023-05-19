@@ -1,24 +1,49 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Database } from "../db/Context";
+import toaster from "../utils/functions/toaster";
+import emailValidator from "../utils/functions/email-validator";
+import axios from "axios";
 
 const SignIn = () => {
-  const { login, authenticated } = useContext(Database);
-  console.log(authenticated);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { setUser, BASE_URL } = useContext(Database);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (authenticated) {
-      navigate("/dashboard", { replace: true });
-    }
-  }, [authenticated, navigate]);
-
-  const handleLogin = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    login(() => {
-      navigate("/dashboard", { replace: true });
-    });
+    if (!email || !password) {
+      return toaster("error", "Please fill all credentials");
+    }
+    if (!emailValidator(email)) {
+      return toaster("error", "Enter a vaild email.");
+    }
+    if (password.length < 8) {
+      return toaster("error", "Password cannot be less than 8 characters");
+    }
+    const data = { email, password };
+    loginUser(data);
+  };
+
+  const loginUser = async (data) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/auth/login`, data, {
+        withCredentials: true,
+      });
+      const result = response.data;
+      if (response.status === 200) {
+        toaster("success", "Login success");
+        let toasterTimeout = setTimeout(() => {
+          navigate("/dashboard");
+          clearTimeout(toasterTimeout);
+        }, 1500);
+      }
+      setUser(result.user);
+    } catch (error) {
+      return toaster("error", error.response.data.msg);
+    }
   };
 
   return (
@@ -35,13 +60,13 @@ const SignIn = () => {
               Start having the best moment with your favorite Artists
             </WelcomePara>
           </LogoContainer>
-          <Footer>
+          {/* <Footer>
             <Link to={"/signin-fans"} className={"underline-focus"}>
               FANS HERE
             </Link>
             <VerticalStroke />
             <Link to={"/signin-artists"}>ARTISTS HERE</Link>
-          </Footer>
+          </Footer> */}
         </LeftContainer>
         <RightContainer>
           <LoginHeading>Login to your account</LoginHeading>
@@ -65,11 +90,25 @@ const SignIn = () => {
           <FormContainer>
             <FormGroup>
               <Label>Email</Label>
-              <Input type="email" id="email" name="email" required />
+              <Input
+                type="email"
+                id="email"
+                name="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value.trim())}
+              />
             </FormGroup>
             <FormGroup>
               <Label>Password</Label>
-              <Input type="password" id="password" name="password" required />
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value.trim())}
+              />
             </FormGroup>
             <RememberContainer>
               <div>
@@ -80,7 +119,7 @@ const SignIn = () => {
                 Forgot Password?
               </Link>
             </RememberContainer>
-            <LoginButton onClick={(e) => handleLogin(e)}>Login</LoginButton>
+            <LoginButton onClick={handleSubmit}>Login</LoginButton>
             <AlreadyHaveAccount>
               Don't have an account? <Link to={"/signup-fans"}>Sign Up</Link>
             </AlreadyHaveAccount>
@@ -96,7 +135,7 @@ const SignUpContainer = styled.main`
   width: 100vw;
   height: 100vh;
   background-color: var(--primary-color-B);
-  background-image: url(${require("../assets/imgs/fans.jpg")});
+  background-image: url(${require("../assets/imgs/artiste.jpg")});
   background-size: cover;
   background-position: center;
   display: grid;
@@ -174,26 +213,26 @@ const WelcomePara = styled.p`
   font-weight: 600;
 `;
 
-const Footer = styled.footer`
-  display: flex;
-  gap: 1.5rem;
-  align-items: center;
+// const Footer = styled.footer`
+//   display: flex;
+//   gap: 1.5rem;
+//   align-items: center;
 
-  a {
-    color: #fff;
-    text-decoration: none;
+//   a {
+//     color: #fff;
+//     text-decoration: none;
 
-    &.underline-focus {
-      text-decoration: underline;
-    }
-  }
-`;
-const VerticalStroke = styled.span`
-  width: 2px;
-  height: 25px;
-  background-color: #fff;
-  border-radius: 0.2rem;
-`;
+//     &.underline-focus {
+//       text-decoration: underline;
+//     }
+//   }
+// `;
+// const VerticalStroke = styled.span`
+//   width: 2px;
+//   height: 25px;
+//   background-color: #fff;
+//   border-radius: 0.2rem;
+// `;
 
 const RightContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.3);

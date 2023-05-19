@@ -57,7 +57,7 @@ const Navbar = () => {
         </NavList>
       </Nav>
       <ActionContainer>
-        <Link to="/signin-fans" style={linkStyle}>
+        <Link to="/signin" style={linkStyle}>
           Sign In
         </Link>
         <Link to="/signup-fans" style={linkStyle}>
