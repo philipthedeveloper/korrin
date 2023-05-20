@@ -61,7 +61,7 @@ const Context = ({ children }) => {
       return toaster("error", "Name cannot be less than 3 characters");
     }
     if (!emailValidator(email)) {
-      return toaster("error", "Enter a vaild email.");
+      return toaster("error", "Enter a vaild email");
     }
     if (password.length < 8 || confirmPassword.length < 8) {
       return toaster("error", "Password cannot be less than 8 characters");

@@ -1,16 +1,73 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import toaster from "../utils/functions/toaster";
+import emailValidator from "../utils/functions/email-validator";
+import axios from "axios";
+import { Database } from "../db/Context";
+import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
-  const fakeEvent = (e) => {
+  const [email, setEmail] = useState("");
+  const { BASE_URL } = useContext(Database);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleReset = async (e) => {
     e.preventDefault();
+    if (!emailValidator(email)) {
+      return toaster("error", "Please enter a valid email");
+    }
+    await toast.promise(sendEmail(email), {
+      pending: "Verifying email",
+      success: {
+        render({ data }) {
+          return data;
+        },
+      },
+      error: {
+        render({ data }) {
+          return data.message;
+        },
+      },
+    });
+  };
+
+  const sendEmail = async (email) => {
+    try {
+      let response = await axios.post(
+        `${BASE_URL}/auth/get-otp`,
+        { email },
+        { withCredentials: true }
+      );
+      const result = response.data;
+      if (response.status === 200) {
+        let toasterTimeout = setTimeout(() => {
+          navigate("/reset-password", {
+            state: { email, from: location.pathname },
+          });
+          clearTimeout(toasterTimeout);
+        }, 1500);
+      }
+      return result.msg;
+    } catch (error) {
+      throw new Error(error.response.data.msg);
+    }
   };
 
   return (
     <SignUpContainer>
       <ActionContainer>
-        <Link to={"/"}> Back</Link>
+        <Link
+          to={"/"}
+          onClick={(e) => {
+            e.preventDefault();
+            navigate(-1);
+          }}
+        >
+          Back
+        </Link>
       </ActionContainer>
       <FormSection>
         <LeftContainer>
@@ -26,21 +83,17 @@ const ForgotPassword = () => {
           <FormContainer>
             <FormGroup>
               <Label>Email</Label>
-              <Input type="email" id="email" name="email" required />
+              <Input
+                type="email"
+                id="email"
+                name="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value.trim())}
+              />
             </FormGroup>
-            <ResetButton onClick={(e) => fakeEvent(e)}>
-              <Link
-                to={"/reset-password"}
-                style={{
-                  textDecoration: "none",
-                  color: "#fff",
-                  padding: "0.7rem",
-                  display: "inline-block",
-                  width: "100%",
-                }}
-              >
-                Reset Password
-              </Link>
+            <ResetButton onClick={(e) => handleReset(e)}>
+              Reset Password
             </ResetButton>
           </FormContainer>
         </RightContainer>
@@ -197,7 +250,7 @@ const ResetButton = styled.button`
   background-color: #42ff00;
   width: 100%;
   margin: 1rem 0;
-  //   padding: 0.7rem;
+  padding: 1rem;
   color: #fff;
   font-family: inherit;
   font-weight: 600;

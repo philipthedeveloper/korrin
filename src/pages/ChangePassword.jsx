@@ -1,10 +1,77 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useNavigate, useLocation } from "react-router-dom";
+import emailValidator from "../utils/functions/email-validator";
+import toaster from "../utils/functions/toaster";
+import { toast } from "react-toastify";
+import { Database } from "../db/Context";
+import axios from "axios";
 
 const ChangePassword = () => {
-  const fakeEvent = (e) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [otpCode, setOtpCode] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const { BASE_URL } = useContext(Database);
+
+  useEffect(() => {
+    const email = location.state?.email;
+    const otpCode = location.state?.otpCode;
+    if (!email || !otpCode) {
+      return navigate("/signin", { replace: true });
+    }
+    setEmail(email);
+    setOtpCode(otpCode);
+  }, [navigate, location.state?.email, location.state?.otpCode]);
+
+  const handleChangePassword = async (e) => {
     e.preventDefault();
+    if (password.length < 8 || confirmPassword.length < 8) {
+      return toaster("error", "Password cannot be less than 8 characters");
+    }
+    if (password !== confirmPassword) {
+      return toaster("error", "Password does not match");
+    }
+    if (!emailValidator(email)) {
+      return toaster("error", "Enter a valid email");
+    }
+    const data = { email, newPassword: password, otpCode };
+    await toast.promise(submitPassword(data), {
+      pending: "Verifying Token",
+      success: {
+        render({ data }) {
+          return data;
+        },
+      },
+      error: {
+        render({ data }) {
+          return data.message;
+        },
+      },
+    });
+  };
+
+  const submitPassword = async (data) => {
+    try {
+      let response = await axios.post(
+        `${BASE_URL}/auth/change-password`,
+        data,
+        { withCredentials: true }
+      );
+      let result = response.data;
+      if (response.status === 200) {
+        let toasterTimeout = setTimeout(() => {
+          navigate("/signin", { replace: true });
+          clearTimeout(toasterTimeout);
+        }, 1500);
+      }
+      return result.msg;
+    } catch (error) {
+      throw new Error(error.response.data.msg);
+    }
   };
 
   return (
@@ -26,7 +93,14 @@ const ChangePassword = () => {
           <FormContainer>
             <FormGroup>
               <Label>New Password</Label>
-              <Input type="password" id="password" name="password" required />
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value.trim())}
+              />
             </FormGroup>
             <FormGroup>
               <Label>Confirm Password</Label>
@@ -35,21 +109,12 @@ const ChangePassword = () => {
                 id="confirm-password"
                 name="confirm-password"
                 required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value.trim())}
               />
             </FormGroup>
-            <ChangeButton onClick={(e) => fakeEvent(e)}>
-              <Link
-                to={"/signin"}
-                style={{
-                  textDecoration: "none",
-                  color: "#fff",
-                  padding: "0.7rem",
-                  display: "inline-block",
-                  width: "100%",
-                }}
-              >
-                Change Password
-              </Link>
+            <ChangeButton onClick={(e) => handleChangePassword(e)}>
+              Change Password
             </ChangeButton>
           </FormContainer>
         </RightContainer>
@@ -206,7 +271,7 @@ const ChangeButton = styled.button`
   background-color: #42ff00;
   width: 100%;
   margin: 1rem 0;
-  //   padding: 0.7rem;
+  padding: 1rem;
   color: #fff;
   font-family: inherit;
   font-weight: 600;

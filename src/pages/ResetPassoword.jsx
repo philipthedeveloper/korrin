@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useNavigate, useLocation } from "react-router-dom";
+import toaster from "../utils/functions/toaster";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { Database } from "../db/Context";
 
 const ResetPassword = () => {
   const [a, setA] = useState("");
@@ -8,9 +13,18 @@ const ResetPassword = () => {
   const [c, setC] = useState("");
   const [d, setD] = useState("");
   const [e, setE] = useState("");
-  const fakeEvent = (e) => {
-    e.preventDefault();
-  };
+  const [email, setEmail] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { BASE_URL } = useContext(Database);
+
+  useEffect(() => {
+    const email = location.state?.email;
+    if (!email) {
+      return navigate("/forgot-password", { replace: true });
+    }
+    setEmail(email);
+  }, [navigate, location.state?.email]);
 
   const handleChange = (e) => {
     if (e.target.nextElementSibling && e.target.value.length !== 0) {
@@ -18,10 +32,81 @@ const ResetPassword = () => {
     }
   };
 
+  // const handlePreChange = (e) => {
+  //   if (e.target.previousElementSibling.value.length !== 1) {
+  //     e.target.previousElementSibling.focus();
+  //     return false;
+  //   }
+  // };
+  const handleOtp = async (event) => {
+    event.preventDefault();
+    if (!a || !b || !c || !d || !e) {
+      return toaster("error", "Provide a complete token");
+    }
+    const otp = `${a}${b}${c}${d}${e}`;
+    await toast.promise(sendOtp(email, otp), {
+      pending: "Verifying Token",
+      success: {
+        render({ data }) {
+          return data;
+        },
+      },
+      error: {
+        render({ data }) {
+          return data.message;
+        },
+      },
+    });
+  };
+
+  const sendOtp = async (email, otp) => {
+    try {
+      let response = await axios.post(
+        `${BASE_URL}/auth/reset-password`,
+        { email, otp },
+        { withCredentials: true }
+      );
+      let result = response.data;
+      if (response.status === 200) {
+        let toasterTimeout = setTimeout(() => {
+          navigate("/change-password", {
+            state: { email, from: location.pathname, otpCode: otp },
+          });
+          clearTimeout(toasterTimeout);
+        }, 1500);
+      }
+      return result.msg;
+    } catch (error) {
+      throw new Error(error.response.data.msg);
+    }
+  };
+
+  // useEffect(() => {
+  //   document.addEventListener("keydown", keyCheck);
+  //   function keyCheck(e) {
+  //     let keyId = e.keyCode;
+  //     switch (keyId) {
+  //       case 8:
+  //         console.log("Back space");
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //   }
+  // }, []);
+
   return (
     <SignUpContainer>
       <ActionContainer>
-        <Link to={"/"}> Back</Link>
+        <Link
+          to={"/"}
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/forgot-password", { replace: true });
+          }}
+        >
+          Back
+        </Link>
       </ActionContainer>
       <FormSection>
         <LeftContainer>
@@ -35,8 +120,9 @@ const ResetPassword = () => {
         <RightContainer>
           <ForgotHeading>Account Verification</ForgotHeading>
           <ResetText>
-            A verification code has been sent to the email associated with this
-            account, please confirm your email
+            A verification code has been sent to the{" "}
+            {email.slice(0, Math.floor(email.length / 2))}... Please check your
+            email to get verification code.
           </ResetText>
           <FormContainer>
             <FormGroup>
@@ -96,20 +182,7 @@ const ResetPassword = () => {
                 }}
               />
             </FormGroup>
-            <ConfirmOTP onClick={(e) => fakeEvent(e)}>
-              <Link
-                to={"/change-password"}
-                style={{
-                  textDecoration: "none",
-                  color: "#fff",
-                  padding: "0.7rem",
-                  display: "inline-block",
-                  width: "100%",
-                }}
-              >
-                Confirm OTP
-              </Link>
-            </ConfirmOTP>
+            <ConfirmOTP onClick={(e) => handleOtp(e)}>Confirm OTP</ConfirmOTP>
           </FormContainer>
         </RightContainer>
       </FormSection>
@@ -253,6 +326,7 @@ const ConfirmOTP = styled.button`
   border-radius: 0.7rem;
   cursor: pointer;
   transition: 0.5s ease;
+  padding: 1rem;
 
   &:hover {
     opacity: 0.8;
