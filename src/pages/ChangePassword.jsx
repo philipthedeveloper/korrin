@@ -40,7 +40,7 @@ const ChangePassword = () => {
     }
     const data = { email, newPassword: password, otpCode };
     await toast.promise(submitPassword(data), {
-      pending: "Verifying Token",
+      pending: "Saving account changes",
       success: {
         render({ data }) {
           return data;
